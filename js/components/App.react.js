@@ -8,12 +8,18 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Nav from './Nav.react';
+
+import '../../css/main.css'
 
 class App extends Component {
   render() {
     return (
-      <div className="wrapper">
-        { this.props.children }
+      <div>
+        <Nav />
+        <div className="wrapper">
+          { this.props.children }
+        </div>
       </div>
     );
   }
