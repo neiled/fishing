@@ -1,35 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import createHistory from 'history/lib/createBrowserHistory';
-
-import HomePage from './components/pages/HomePage.react';
-
-import App from './components/App.react';
+import {my_getStore, my_getHistory} from './store/configureStore';
 
 
-import rootReducer from './reducers/rootReducer';
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-const store = createStoreWithMiddleware(rootReducer);
+import HomePage from './components/pages/HomePage';
 
+import App from './components/App';
 
-
-if (module.hot) {
-  module.hot.accept('./reducers/rootReducer', () => {
-    const nextRootReducer = require('./reducers/rootReducer').default;
-    store.replaceReducer(nextRootReducer);
-  });
-}
+const store = my_getStore(window.__INITIAL_STATE__);
+const history = my_getHistory();
 
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={createHistory()}>
-      <Route component={App}>
-        <Route path="/" component={HomePage} />
+    <Router history={history}>
+      <Route path="/" component={App}>
+        <IndexRoute component={HomePage}/>
       </Route>
     </Router>
   </Provider>,
